@@ -10,7 +10,8 @@ class MyStyle {
 
   // Method
   Widget showLogo() {
-    return Container(height: 200.0,
+    return Container(
+      height: 200.0,
       child: Image.asset('images/logo_1024.png'),
     );
   }
@@ -50,6 +51,12 @@ class MyStyle {
     fontFamily: 'ThaiSansNeue',
     color: Color.fromARGB(0xff, 0xb7, 0x4a, 0x02),
     fontWeight: FontWeight.bold,
+    fontSize: 18.0,
+  );
+
+  TextStyle h2NormalStyle = TextStyle(
+    fontFamily: 'ThaiSansNeue',
+    color: Color.fromARGB(0xff, 0xb7, 0x4a, 0x02),
     fontSize: 18.0,
   );
 

@@ -15,7 +15,6 @@ class SingInUser extends StatefulWidget {
 }
 
 class _SingInUserState extends State<SingInUser> {
-
   // Filed
   String user, password;
 
@@ -26,76 +25,79 @@ class _SingInUserState extends State<SingInUser> {
       alignment: Alignment(0, -0.8),
       child: Container(
         width: 250.0,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            MyStyle().showLogo(),
-            MyStyle().mySizeBox(),
-            TextField(
-              onChanged: (value) => user = value.trim(),
-              decoration: InputDecoration(
-                labelText: 'User :',
-                labelStyle: MyStyle().h3StylePrimary,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: MyStyle().primaryColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: MyStyle().dartColor)),
-              ),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            TextField(
-              onChanged: (valur) => password = valur.trim(),
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password :',
-                labelStyle: MyStyle().h3StylePrimary,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: MyStyle().primaryColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: MyStyle().dartColor)),
-              ),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Container(
-              width: 250.0,
-              child: RaisedButton.icon(
-                color: MyStyle().primaryColor,
-                onPressed: () {
-                  if (user == null ||
-                      user.isEmpty ||
-                      password == null ||
-                      password.isEmpty) {
-                    normalDialog(
-                        context, 'Have Space', 'Please Fill Ever Blank');
-                  } else {
-                    checkAuthen();
-                  }
-                },
-                icon: Icon(
-                  Icons.fingerprint,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  'Sign In',
-                  style: MyStyle().h2StyleWhite,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              MyStyle().showLogo(),
+              MyStyle().mySizeBox(),
+              TextField(
+                style: MyStyle().h2NormalStyle,
+                onChanged: (value) => user = value.trim(),
+                decoration: InputDecoration(
+                  labelText: 'User :',
+                  labelStyle: MyStyle().h3StylePrimary,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: MyStyle().primaryColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: MyStyle().dartColor)),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                height: 16.0,
+              ),
+              TextField(
+                style: MyStyle().h2NormalStyle,
+                onChanged: (valur) => password = valur.trim(),
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password :',
+                  labelStyle: MyStyle().h3StylePrimary,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: MyStyle().primaryColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: MyStyle().dartColor)),
+                ),
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              Container(
+                width: 250.0,
+                child: RaisedButton.icon(
+                  color: MyStyle().primaryColor,
+                  onPressed: () {
+                    if (user == null ||
+                        user.isEmpty ||
+                        password == null ||
+                        password.isEmpty) {
+                      normalDialog(
+                          context, 'Have Space', 'Please Fill Ever Blank');
+                    } else {
+                      checkAuthen();
+                    }
+                  },
+                  icon: Icon(
+                    Icons.fingerprint,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    'Sign In',
+                    style: MyStyle().h2StyleWhite,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Future<void> checkAuthen() async {
-    String url =
-        '${MyConstant().urlGetUserWhereUser}?isAdd=true&User=$user';
+    String url = '${MyConstant().urlGetUserWhereUser}?isAdd=true&User=$user';
 
     try {
       Response response = await Dio().get(url);
@@ -126,6 +128,7 @@ class _SingInUserState extends State<SingInUser> {
       preferences.setString('Name', model.name);
       preferences.setString('Lat', model.lat);
       preferences.setString('Lng', model.lng);
+      preferences.setString('Login', 'User');
 
       MaterialPageRoute route = MaterialPageRoute(builder: (value) => Home());
       Navigator.of(context).pushAndRemoveUntil(route, (value) => false);

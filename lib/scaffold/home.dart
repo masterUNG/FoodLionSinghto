@@ -25,9 +25,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Field
   Widget cuttentWidget = MainHome();
-  String nameLogin, avatar;
+  String nameLogin, avatar, modeLogin;
   bool statusLogin = false; //false => no login
-  List<Widget> currentWidgets = <Widget>[MainHome(), OrderShop(), MainHome()]; //[GenerLogin, ShopLogin, UserLogin]
+  List<Widget> currentWidgets = <Widget>[
+    MainHome(),
+    OrderShop(),
+    MainHome()
+  ]; //[GenerLogin, ShopLogin, UserLogin]
 
   // Method
   @override
@@ -49,22 +53,49 @@ class _HomeState extends State<Home> {
   Future<void> checkLogin() async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
+      modeLogin = preferences.getString('Login');
       nameLogin = preferences.getString('Name');
       avatar = preferences.getString('UrlShop');
-      print('nameLogin = $nameLogin, avatar = $avatar');
 
-      if (!(nameLogin == null || nameLogin.isEmpty)) {
-        setState(() {
-          statusLogin = true;
-          cuttentWidget = OrderShop();
-        });
-      }
+      if (modeLogin == 'Shop') {
+        if (!(nameLogin == null || nameLogin.isEmpty)) {
+          setState(() {
+            statusLogin = true;
+            cuttentWidget = OrderShop();
+          });
+        }
+      } else if (modeLogin == 'User') {
+        if (!(nameLogin == null || nameLogin.isEmpty)) {
+          setState(() {
+            statusLogin = true;
+            cuttentWidget = MainHome();
+          });
+        }
+      } else if (modeLogin == 'Delivery') {
+        if (!(nameLogin == null || nameLogin.isEmpty)) {
+          setState(() {
+            statusLogin = true;
+            cuttentWidget = MainHome();
+          });
+        }
+      } else {}
     } catch (e) {}
   }
 
   Widget showDrawer() {
+    print('modeLogin ===>>> $modeLogin');
+    Widget myWidget;
+    if (modeLogin == 'Shop') {
+      myWidget = shopList();
+    } else if (modeLogin == 'User') {
+      myWidget = userList();
+    } else if (modeLogin == 'Delivery') {
+      myWidget = generalList();
+    } else {
+      myWidget = generalList();
+    }
     return Drawer(
-      child: statusLogin ? shopList() : generalList(),
+      child: myWidget,
     );
   }
 
@@ -79,10 +110,20 @@ class _HomeState extends State<Home> {
     );
   }
 
+  ListView userList() {
+    return ListView(
+      children: <Widget>[
+        showHeadUser(),
+        menuHome(),
+        menuSignOut(),
+      ],
+    );
+  }
+
   ListView shopList() {
     return ListView(
       children: <Widget>[
-        showHead(),
+        showHeadShop(),
         menuOrderShop(),
         menuMyFood(),
         menuAddMyFood(),
@@ -421,21 +462,49 @@ class _HomeState extends State<Home> {
   }
 
   Widget showHead() {
+    print('nameLogin ==>>> $nameLogin');
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage('images/bic2.png'), fit: BoxFit.cover),
       ),
-      currentAccountPicture: avatar == null ? showLogo() : showAvatar(),
-      accountName: statusLogin
-          ? Text(
-              nameLogin,
-              style: MyStyle().h2StyleWhite,
-            )
-          : Text(
-              'Guest',
-              style: MyStyle().h2StyleWhite,
-            ),
+      currentAccountPicture: showLogo(),
+      accountName: Text(
+        'Guest',
+        style: MyStyle().h2StyleWhite,
+      ),
+      accountEmail: Text('Login'),
+    );
+  }
+
+  Widget showHeadUser() {
+    print('nameLogin ==>>> $nameLogin');
+    return UserAccountsDrawerHeader(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('images/bic3.png'), fit: BoxFit.cover),
+      ),
+      currentAccountPicture: showLogo(),
+      accountName: Text(
+        nameLogin,
+        style: MyStyle().h2StyleWhite,
+      ),
+      accountEmail: Text('Login'),
+    );
+  }
+
+  Widget showHeadShop() {
+    
+    return UserAccountsDrawerHeader(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('images/bic4.png'), fit: BoxFit.cover),
+      ),
+      currentAccountPicture:showLogo(),
+      accountName: Text(
+        nameLogin,
+        style: MyStyle().h2StyleWhite,
+      ),
       accountEmail: Text('Login'),
     );
   }
