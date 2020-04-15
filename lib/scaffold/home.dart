@@ -15,7 +15,8 @@ import '../utility/my_style.dart';
 
 class Home extends StatefulWidget {
   final Widget currentWidget;
-  Home({Key key, this.currentWidget}) : super(key: key);
+  final int indexLogin;
+  Home({Key key, this.currentWidget, this.indexLogin}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -26,6 +27,7 @@ class _HomeState extends State<Home> {
   Widget cuttentWidget = MainHome();
   String nameLogin, avatar;
   bool statusLogin = false; //false => no login
+  List<Widget> currentWidgets = <Widget>[MainHome(), OrderShop(), MainHome()]; //[GenerLogin, ShopLogin, UserLogin]
 
   // Method
   @override

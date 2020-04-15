@@ -3,9 +3,12 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:foodlion/scaffold/home.dart';
 import 'package:foodlion/utility/my_constant.dart';
 import 'package:foodlion/utility/my_style.dart';
 import 'package:foodlion/utility/normal_dialog.dart';
+import 'package:foodlion/widget/sign_in_app.dart';
+import 'package:foodlion/widget/signin_shop.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -246,7 +249,7 @@ class _RegisterUserState extends State<RegisterUser> {
     try {
       await Dio().get(url).then((response) {
         if (response.toString() == 'null') {
-          // uploadImageToServer();
+          insertDtaToMySQL();
         } else {
           normalDialog(
             context,
@@ -289,12 +292,15 @@ class _RegisterUserState extends State<RegisterUser> {
         (response) {
           print('res==>>>$response');
           if (response.toString() == 'true') {
+            MaterialPageRoute route = MaterialPageRoute(builder: (value)=>Home(currentWidget: SignInApp(),));
+            Navigator.of(context).pushAndRemoveUntil(route, (value)=>false);
           } else {
             normalDialog(context, 'Register False', 'Please Try Again');
           }
         },
       );
-    } catch (e) {}
+    } catch (e) {
+    }
   }
 
   Widget showListView() {

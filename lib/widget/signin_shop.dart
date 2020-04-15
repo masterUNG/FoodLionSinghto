@@ -20,17 +20,25 @@ class _SignInshopState extends State<SignInshop> {
 
   // Method
   Widget showContent() {
-    return Center(
+    return Container(
+      alignment: Alignment(0, -0.8),
       child: Container(
         width: 250.0,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            MyStyle().showLogo(),
+            MyStyle().mySizeBox(),
             TextField(
               onChanged: (value) => user = value.trim(),
               decoration: InputDecoration(
                 labelText: 'User :',
-                border: OutlineInputBorder(),
+                labelStyle: MyStyle().h3StylePrimary,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: MyStyle().primaryColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: MyStyle().dartColor)),
               ),
             ),
             SizedBox(
@@ -41,7 +49,12 @@ class _SignInshopState extends State<SignInshop> {
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password :',
-                border: OutlineInputBorder(),
+                labelStyle: MyStyle().h3StylePrimary,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: MyStyle().primaryColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: MyStyle().dartColor)),
               ),
             ),
             SizedBox(
@@ -49,7 +62,8 @@ class _SignInshopState extends State<SignInshop> {
             ),
             Container(
               width: 250.0,
-              child: RaisedButton.icon(color: MyStyle().primaryColor,
+              child: RaisedButton.icon(
+                color: MyStyle().primaryColor,
                 onPressed: () {
                   if (user == null ||
                       user.isEmpty ||
@@ -61,8 +75,14 @@ class _SignInshopState extends State<SignInshop> {
                     checkAuthen();
                   }
                 },
-                icon: Icon(Icons.fingerprint, color: Colors.white,),
-                label: Text('Sign In', style: MyStyle().h2StyleWhite,),
+                icon: Icon(
+                  Icons.fingerprint,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Sign In',
+                  style: MyStyle().h2StyleWhite,
+                ),
               ),
             ),
           ],
@@ -77,7 +97,7 @@ class _SignInshopState extends State<SignInshop> {
 
     try {
       Response response = await Dio().get(url);
-      
+
       if (response.toString() == 'null') {
         normalDialog(context, 'User False', 'No $user in my Database');
       } else {

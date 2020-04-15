@@ -9,11 +9,17 @@ class MyStyle {
   String font = 'ThaiSansNeue';
 
   // Method
-  // Icon signInIcon = Icon(
-  //   Icons.fingerprint,
-  //   size: 36.0,
-  //   color: MyStyle().dartColor,
-  // );
+  Widget showLogo() {
+    return Container(height: 200.0,
+      child: Image.asset('images/logo_1024.png'),
+    );
+  }
+
+  Icon signInIcon = Icon(
+    Icons.fingerprint,
+    size: 36.0,
+    color: Color.fromARGB(0xff, 0xb7, 0x4a, 0x02),
+  );
 
   Icon signUpIcon = Icon(
     Icons.system_update,
