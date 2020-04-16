@@ -494,13 +494,12 @@ class _HomeState extends State<Home> {
   }
 
   Widget showHeadShop() {
-    
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage('images/bic4.png'), fit: BoxFit.cover),
       ),
-      currentAccountPicture:showLogo(),
+      currentAccountPicture: showLogo(),
       accountName: Text(
         nameLogin,
         style: MyStyle().h2StyleWhite,
