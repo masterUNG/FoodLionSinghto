@@ -74,6 +74,13 @@ class MyStyle {
     fontSize: 24.0,
   );
 
+  TextStyle h1PrimaryStyle = TextStyle(
+    fontFamily: 'ThaiSansNeue',
+    color: Color.fromARGB(0xff, 0xef, 0x79, 0x36),
+    fontWeight: FontWeight.bold,
+    fontSize: 24.0,
+  );
+
   Widget mySizeBox() {
     return SizedBox(
       width: 8.0,

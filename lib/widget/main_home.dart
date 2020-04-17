@@ -57,7 +57,7 @@ class _MainHomeState extends State<MainHome> {
     try {
       Response response = await Dio().get(url);
       var result = json.decode(response.data);
-      print('result ===>>> $result');
+      // print('result ===>>> $result');
 
       for (var map in result) {
         UserShopModel model = UserShopModel.fromJson(map);

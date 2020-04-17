@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlion/models/food_model.dart';
+import 'package:foodlion/scaffold/show_food.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyFood extends StatefulWidget {
@@ -74,17 +75,24 @@ class _MyFoodState extends State<MyFood> {
     );
   }
 
-  Widget showContent(int index) => Row(
-        children: <Widget>[
-          showImageFood(index),
-          showText(index),
-        ],
+  Widget showContent(int index) => GestureDetector(
+        onTap: () {
+          // print('You Click idFood ===>> ${foodModels[index].id}');
+          MaterialPageRoute route = MaterialPageRoute(builder: (value)=>ShowFood(foodModel: foodModels[index],));
+          Navigator.of(context).push(route);
+        },
+        child: Row(
+          children: <Widget>[
+            showImageFood(index),
+            showText(index),
+          ],
+        ),
       );
 
   Widget showText(int index) => Container(
         padding: EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.width * 0.4,
+        // height: MediaQuery.of(context).size.width * 0.4,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -109,31 +117,41 @@ class _MyFoodState extends State<MyFood> {
         ],
       );
 
-  Widget showDetailFood(int index) => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width * 0.5 - 20,
-            child: Text(
-              foodModels[index].detailFood,
-              style: TextStyle(
-                fontSize: 18.0,
-              ),
+  Widget showDetailFood(int index) {
+    String string = foodModels[index].detailFood;
+    if (string.length > 50) {
+      string = string.substring(0, 49);
+      string = '$string ...';
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width * 0.5 - 20,
+          child: Text(
+            string,
+            style: TextStyle(
+              fontSize: 18.0,
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 
   Widget showNameFood(int index) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Text(
-          foodModels[index].nameFood,
-          style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).primaryColorDark,
+        Container(
+          width: MediaQuery.of(context).size.width * 0.5 - 30,
+          child: Text(
+            foodModels[index].nameFood,
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColorDark,
+            ),
           ),
         ),
       ],
