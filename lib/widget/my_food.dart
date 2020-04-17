@@ -78,7 +78,10 @@ class _MyFoodState extends State<MyFood> {
   Widget showContent(int index) => GestureDetector(
         onTap: () {
           // print('You Click idFood ===>> ${foodModels[index].id}');
-          MaterialPageRoute route = MaterialPageRoute(builder: (value)=>ShowFood(foodModel: foodModels[index],));
+          MaterialPageRoute route = MaterialPageRoute(
+              builder: (value) => ShowFood(
+                    foodModel: foodModels[index],
+                  ));
           Navigator.of(context).push(route);
         },
         child: Row(
@@ -176,6 +179,9 @@ class _MyFoodState extends State<MyFood> {
 
   @override
   Widget build(BuildContext context) {
-    return statusData ? showNoData() : showListFood();
+    return Scaffold(
+      appBar: AppBar(title: Text('รายการอาหาร'),),
+      body: statusData ? showNoData() : showListFood(),
+    );
   }
 }

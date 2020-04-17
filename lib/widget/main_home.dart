@@ -95,13 +95,9 @@ class _MainHomeState extends State<MainHome> {
       onTap: () {
         print('You Click ${model.id}');
         MaterialPageRoute route = MaterialPageRoute(
-          builder: (value) => Home(
-            currentWidget: MyFood(
-              idShop: model.id,
-            ),
-          ),
+          builder: (value) => MyFood(idShop: model.id),
         );
-        Navigator.of(context).pushAndRemoveUntil(route, (value) => false);
+        Navigator.of(context).push(route);
       },
       child: Card(
         child: Column(

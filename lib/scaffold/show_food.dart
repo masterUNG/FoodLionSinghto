@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlion/models/food_model.dart';
 import 'package:foodlion/utility/my_style.dart';
+import 'package:foodlion/utility/normal_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShowFood extends StatefulWidget {
   final FoodModel foodModel;
@@ -13,12 +15,32 @@ class ShowFood extends StatefulWidget {
 class _ShowFoodState extends State<ShowFood> {
   // Field
   FoodModel foodModel;
+  int amountFood = 1;
+  String idShop, idUser, idFood, nameFood, urlFood, priceFood;
 
   // Method
   @override
   void initState() {
     super.initState();
     foodModel = widget.foodModel;
+    setupVariable();
+  }
+
+  Future<void> setupVariable()async{
+
+    idShop = foodModel.idShop;
+    idFood = foodModel.id;
+    nameFood = foodModel.nameFood;
+    urlFood = foodModel.urlFood;
+    priceFood = foodModel.priceFood;
+
+    try {
+
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      idUser = preferences.getString('Login');
+      
+    } catch (e) {
+    }
   }
 
   Widget showContent() {
@@ -78,7 +100,8 @@ class _ShowFoodState extends State<ShowFood> {
 
   Widget chooseAmount() {
     return Expanded(
-          child: Row(mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           IconButton(
@@ -87,10 +110,14 @@ class _ShowFoodState extends State<ShowFood> {
                 size: 36.0,
                 color: Colors.green,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                setState(() {
+                  amountFood++;
+                });
+              }),
           MyStyle().mySizeBox(),
           Text(
-            '0',
+            '$amountFood',
             style: MyStyle().h1PrimaryStyle,
           ),
           MyStyle().mySizeBox(),
@@ -100,7 +127,13 @@ class _ShowFoodState extends State<ShowFood> {
                 size: 36.0,
                 color: Colors.red,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                if (amountFood != 0) {
+                  setState(() {
+                    amountFood--;
+                  });
+                }
+              }),
         ],
       ),
     );
@@ -108,10 +141,24 @@ class _ShowFoodState extends State<ShowFood> {
 
   Widget addCartButton() {
     return Expanded(
-          child: RaisedButton.icon(color: MyStyle().primaryColor,
-          onPressed: () {},
-          icon: Icon(Icons.add_shopping_cart, color: Colors.white,),
-          label: Text('เพิ่มลงในตระกร้า', style: MyStyle().h2StyleWhite,)),
+      child: RaisedButton.icon(
+          color: MyStyle().primaryColor,
+          onPressed: () {
+            if (amountFood == 0) {
+              normalDialog(context, 'ยังไม่มี รายการอาหาร', 'กรุณาเพิ่มจำนวน รายการอาหาร');
+            } else if (idUser == null) {
+              normalDialog(context, 'ยังไม่ได้ Login', 'กรุณา Login ก่อน Order คะ');
+            } else {
+            }
+          },
+          icon: Icon(
+            Icons.add_shopping_cart,
+            color: Colors.white,
+          ),
+          label: Text(
+            'เพิ่มลงในตระกร้า',
+            style: MyStyle().h2StyleWhite,
+          )),
     );
   }
 
@@ -119,7 +166,8 @@ class _ShowFoodState extends State<ShowFood> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             chooseAmount(),
             addCartButton(),
