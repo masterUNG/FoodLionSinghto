@@ -9,6 +9,18 @@ class MyStyle {
   String font = 'ThaiSansNeue';
 
   // Method
+  Widget showMyCart(int typeFood) {
+    return Container(margin: EdgeInsets.only(right: 16.0),
+      height: 36.0,
+      child: Row(
+        children: <Widget>[
+          Text('$typeFood', style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold,),),
+          Icon(Icons.shopping_cart),
+        ],
+      ),
+    );
+  }
+
   Widget showLogo() {
     return Container(
       height: 200.0,

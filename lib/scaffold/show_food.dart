@@ -26,8 +26,7 @@ class _ShowFoodState extends State<ShowFood> {
     setupVariable();
   }
 
-  Future<void> setupVariable()async{
-
+  Future<void> setupVariable() async {
     idShop = foodModel.idShop;
     idFood = foodModel.id;
     nameFood = foodModel.nameFood;
@@ -35,12 +34,9 @@ class _ShowFoodState extends State<ShowFood> {
     priceFood = foodModel.priceFood;
 
     try {
-
       SharedPreferences preferences = await SharedPreferences.getInstance();
       idUser = preferences.getString('Login');
-      
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   Widget showContent() {
@@ -145,10 +141,15 @@ class _ShowFoodState extends State<ShowFood> {
           color: MyStyle().primaryColor,
           onPressed: () {
             if (amountFood == 0) {
-              normalDialog(context, 'ยังไม่มี รายการอาหาร', 'กรุณาเพิ่มจำนวน รายการอาหาร');
+              normalDialog(context, 'ยังไม่มี รายการอาหาร',
+                  'กรุณาเพิ่มจำนวน รายการอาหาร');
             } else if (idUser == null) {
-              normalDialog(context, 'ยังไม่ได้ Login', 'กรุณา Login ก่อน Order คะ');
+              normalDialog(
+                  context, 'ยังไม่ได้ Login', 'กรุณา Login ก่อน Order คะ');
             } else {
+              print(
+                  'idFood=$idFood, idShop=$idShop, nameFood=$nameFood, urlFood=$urlFood, priceFood=$priceFood, amountFood=$amountFood');
+                  
             }
           },
           icon: Icon(

@@ -512,11 +512,16 @@ class _HomeState extends State<Home> {
         backgroundImage: NetworkImage(avatar),
       );
 
+  Widget showCart() {
+    return statusLogin ? MyStyle().showMyCart(3) : MyStyle().mySizeBox();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: showDrawer(),
       appBar: AppBar(
+        actions: <Widget>[showCart()],
         title: Text(
           'Send',
           style: TextStyle(
