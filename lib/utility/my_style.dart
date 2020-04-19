@@ -46,6 +46,7 @@ class MyStyle {
     fontWeight: FontWeight.bold,
     fontSize: 24.0,
   );
+  
 
   TextStyle h3StylePrimary = TextStyle(
     fontSize: 16.0,

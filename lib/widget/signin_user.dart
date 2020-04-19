@@ -129,6 +129,7 @@ class _SingInUserState extends State<SingInUser> {
       preferences.setString('Lat', model.lat);
       preferences.setString('Lng', model.lng);
       preferences.setString('Login', 'User');
+      
 
       MaterialPageRoute route = MaterialPageRoute(builder: (value) => Home());
       Navigator.of(context).pushAndRemoveUntil(route, (value) => false);

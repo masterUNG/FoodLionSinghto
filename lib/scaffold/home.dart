@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodlion/scaffold/show_cart.dart';
 import 'package:foodlion/widget/add_my_food.dart';
 import 'package:foodlion/widget/main_home.dart';
 import 'package:foodlion/widget/my_food.dart';
@@ -25,7 +26,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   // Field
   Widget cuttentWidget = MainHome();
-  String nameLogin, avatar, modeLogin;
+  String nameLogin, avatar, modeLogin, loginType;
   bool statusLogin = false; //false => no login
   List<Widget> currentWidgets = <Widget>[
     MainHome(),
@@ -56,6 +57,7 @@ class _HomeState extends State<Home> {
       modeLogin = preferences.getString('Login');
       nameLogin = preferences.getString('Name');
       avatar = preferences.getString('UrlShop');
+      loginType = preferences.getString('Login');
 
       if (modeLogin == 'Shop') {
         if (!(nameLogin == null || nameLogin.isEmpty)) {
@@ -83,7 +85,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget showDrawer() {
-    print('modeLogin ===>>> $modeLogin');
+    // print('modeLogin ===>>> $modeLogin');
     Widget myWidget;
     if (modeLogin == 'Shop') {
       myWidget = shopList();
@@ -115,6 +117,7 @@ class _HomeState extends State<Home> {
       children: <Widget>[
         showHeadUser(),
         menuHome(),
+        menuShowCart(),
         menuSignOut(),
       ],
     );
@@ -197,6 +200,28 @@ class _HomeState extends State<Home> {
       ),
       onTap: () {
         Navigator.of(context).pop();
+      },
+    );
+  }
+
+  Widget menuShowCart() {
+    return ListTile(
+      leading: Icon(
+        Icons.shopping_cart,
+        size: 36.0,
+        color: MyStyle().dartColor,
+      ),
+      title: Text(
+        'ตะกร้า',
+        style: MyStyle().h2Style,
+      ),
+      subtitle: Text(
+        'แสดงรายการสินค้า ที่มีใน ตะกร้า',
+        style: MyStyle().h3StylePrimary,
+      ),
+      onTap: () {
+        Navigator.of(context).pop();
+        routeToShowCart();
       },
     );
   }
@@ -462,7 +487,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget showHead() {
-    print('nameLogin ==>>> $nameLogin');
+    // print('nameLogin ==>>> $nameLogin');
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -478,7 +503,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget showHeadUser() {
-    print('nameLogin ==>>> $nameLogin');
+    // print('nameLogin ==>>> $nameLogin');
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -513,7 +538,20 @@ class _HomeState extends State<Home> {
       );
 
   Widget showCart() {
-    return statusLogin ? MyStyle().showMyCart(3) : MyStyle().mySizeBox();
+    return loginType == 'User'
+        ? GestureDetector(
+            onTap: () {
+              routeToShowCart();
+            },
+            child: MyStyle().showMyCart(3),
+          )
+        : MyStyle().mySizeBox();
+  }
+
+  void routeToShowCart() {
+    MaterialPageRoute materialPageRoute =
+        MaterialPageRoute(builder: (value) => ShowCart());
+    Navigator.of(context).push(materialPageRoute);
   }
 
   @override

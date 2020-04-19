@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlion/models/food_model.dart';
+import 'package:foodlion/models/order_model.dart';
 import 'package:foodlion/utility/my_style.dart';
 import 'package:foodlion/utility/normal_dialog.dart';
+import 'package:foodlion/utility/sqlite_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShowFood extends StatefulWidget {
@@ -149,7 +151,16 @@ class _ShowFoodState extends State<ShowFood> {
             } else {
               print(
                   'idFood=$idFood, idShop=$idShop, nameFood=$nameFood, urlFood=$urlFood, priceFood=$priceFood, amountFood=$amountFood');
-                  
+              OrderModel model = OrderModel(
+                idFood: idFood,
+                idShop: idShop,
+                nameFood: nameFood,
+                urlFood: urlFood,
+                priceFood: priceFood,
+                amountFood: amountFood.toString(),
+              );
+              SQLiteHelper().insertDatabase(model);
+              Navigator.of(context).pop();
             }
           },
           icon: Icon(

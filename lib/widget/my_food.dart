@@ -39,15 +39,15 @@ class _MyFoodState extends State<MyFood> {
     if (myIdShop != null) {
       idShop = myIdShop;
     }
-    print('idShop ===> $idShop');
+    // print('idShop ===> $idShop');
     String url =
         'http://movehubs.com/app/getFoodWhereIdShop.php?isAdd=true&idShop=$idShop';
 
     Response response = await Dio().get(url);
-    print('response ===>> $response');
+    // print('response ===>> $response');
     if (response.toString() != 'null') {
       var result = json.decode(response.data);
-      print('result ===>>> $result');
+      // print('result ===>>> $result');
 
       for (var map in result) {
         FoodModel model = FoodModel.fromJson(map);
