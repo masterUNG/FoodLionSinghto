@@ -222,7 +222,8 @@ class _RegisterUserState extends State<RegisterUser> {
   Widget uploadButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      child: RaisedButton.icon(color: MyStyle().primaryColor,
+      child: RaisedButton.icon(
+        color: MyStyle().primaryColor,
         onPressed: () {
           if (name == null ||
               name.isEmpty ||
@@ -237,15 +238,20 @@ class _RegisterUserState extends State<RegisterUser> {
             checkUser();
           }
         },
-        icon: Icon(Icons.cloud_upload, color: Colors.white,),
-        label: Text('Register', style: MyStyle().h2StyleWhite,),
+        icon: Icon(
+          Icons.cloud_upload,
+          color: Colors.white,
+        ),
+        label: Text(
+          'Register',
+          style: MyStyle().h2StyleWhite,
+        ),
       ),
     );
   }
 
   Future<void> checkUser() async {
-    String url =
-        '${MyConstant().urlGetUserWhereUser}?isAdd=true&User=$user';
+    String url = '${MyConstant().urlGetUserWhereUser}?isAdd=true&User=$user';
     try {
       await Dio().get(url).then((response) {
         if (response.toString() == 'null') {
@@ -276,12 +282,10 @@ class _RegisterUserState extends State<RegisterUser> {
       FormData formData = FormData.from(map);
       await Dio()
           .post(url, data: formData)
-          .then((response){})
+          .then((response) {})
           .catchError(() {});
     } catch (e) {}
   }
-
-  
 
   Future<void> insertDtaToMySQL() async {
     String urlAPI =
@@ -292,15 +296,18 @@ class _RegisterUserState extends State<RegisterUser> {
         (response) {
           print('res==>>>$response');
           if (response.toString() == 'true') {
-            MaterialPageRoute route = MaterialPageRoute(builder: (value)=>Home(currentWidget: SignInApp(),));
-            Navigator.of(context).pushAndRemoveUntil(route, (value)=>false);
+            MaterialPageRoute route = MaterialPageRoute(
+              builder: (value) => Home(
+                currentWidget: SignInApp(),
+              ),
+            );
+            Navigator.of(context).pushAndRemoveUntil(route, (value) => false);
           } else {
             normalDialog(context, 'Register False', 'Please Try Again');
           }
         },
       );
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   Widget showListView() {

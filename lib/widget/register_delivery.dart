@@ -3,9 +3,11 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:foodlion/scaffold/home.dart';
 import 'package:foodlion/utility/my_constant.dart';
 import 'package:foodlion/utility/my_style.dart';
 import 'package:foodlion/utility/normal_dialog.dart';
+import 'package:foodlion/widget/signin_delivery.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
@@ -219,7 +221,7 @@ class _RegisterDeliveryState extends State<RegisterDelivery> {
   Widget uploadButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      child: RaisedButton.icon(
+      child: RaisedButton.icon(color: MyStyle().primaryColor,
         onPressed: () {
           if (file == null) {
             normalDialog(
@@ -237,8 +239,8 @@ class _RegisterDeliveryState extends State<RegisterDelivery> {
             uploadImageToServer();
           }
         },
-        icon: Icon(Icons.cloud_upload),
-        label: Text('Register'),
+        icon: Icon(Icons.cloud_upload, color: Colors.white,),
+        label: Text('Register', style: MyStyle().h2StyleWhite,),
       ),
     );
   }
@@ -264,10 +266,15 @@ class _RegisterDeliveryState extends State<RegisterDelivery> {
     String urlAPI =
         '${MyConstant().urlAddDelivery}?isAdd=true&Name=$name&User=$user&Password=$password&UrlShop=urlImage&Lat=$lat&Lng=$lng';
 
+
     try {
       await Dio().get(urlAPI).then(
         (response) {
           if (response.toString() == 'true') {
+            MaterialPageRoute route = MaterialPageRoute(
+              builder: (value) => Home(currentWidget: SignDelivery(),),
+            );
+            Navigator.of(context).pushAndRemoveUntil(route, (value) => false);
           } else {
             normalDialog(context, 'Register False', 'Please Try Again');
           }
