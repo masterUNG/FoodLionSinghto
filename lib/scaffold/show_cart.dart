@@ -61,12 +61,18 @@ class _ShowCartState extends State<ShowCart> {
   }
 
   Widget orderButton() => Container(
-       
         width: MediaQuery.of(context).size.width,
-        child: RaisedButton.icon(color: MyStyle().primaryColor,
+        child: RaisedButton.icon(
+          color: MyStyle().primaryColor,
           onPressed: () {},
-          icon: Icon(Icons.check_box, color: Colors.white,),
-          label: Text('สั่งซื่อ', style: MyStyle().hiStyleWhite,),
+          icon: Icon(
+            Icons.check_box,
+            color: Colors.white,
+          ),
+          label: Text(
+            'สั่งซื่อ',
+            style: MyStyle().hiStyleWhite,
+          ),
         ),
       );
 
@@ -148,6 +154,15 @@ class _ShowCartState extends State<ShowCart> {
                               style: MyStyle().h2NormalStyle,
                             ),
                           ),
+                          Expanded(
+                            flex: 1,
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: MyStyle().dartColor,
+                                ),
+                                onPressed: () {}),
+                          ),
                         ],
                       )),
             ),
@@ -190,7 +205,7 @@ class _ShowCartState extends State<ShowCart> {
           ),
         ),
         Expanded(
-          flex: 1,
+          flex: 2,
           child: Text(
             'รวม',
             style: MyStyle().h2Style,
