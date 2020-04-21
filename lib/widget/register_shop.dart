@@ -299,7 +299,7 @@ class _RegisterShopState extends State<RegisterShop> {
         (response) {
           if (response.toString() == 'true') {
             MaterialPageRoute route = MaterialPageRoute(
-              builder: (value) => Home(currentWidget: SignInshop(),),
+              builder: (value) => Home(),
             );
             Navigator.of(context).pushAndRemoveUntil(route, (value) => false);
           } else {

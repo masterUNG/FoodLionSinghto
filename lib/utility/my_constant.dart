@@ -12,6 +12,7 @@ class MyConstant {
   String urlGetUserShopWhereUser = 'http://movehubs.com/app/getUserShopWhereUser.php';
   String urlGetUserWhereUser = 'http://movehubs.com/app/getUserWhereUser.php';
   String urlGetAllBanner = 'http://movehubs.com/app/getAllBanner.php';
+  String urlGetDeliveryWhereUser = 'http://movehubs.com/app/getDeliveryWhereUser.php';
 
   MyConstant();
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foodlion/scaffold/show_cart.dart';
 import 'package:foodlion/widget/add_my_food.dart';
 import 'package:foodlion/widget/main_home.dart';
+import 'package:foodlion/widget/my_delivery.dart';
 import 'package:foodlion/widget/my_food.dart';
 import 'package:foodlion/widget/order_shop.dart';
 import 'package:foodlion/widget/register_delivery.dart';
@@ -73,11 +74,11 @@ class _HomeState extends State<Home> {
             cuttentWidget = MainHome();
           });
         }
-      } else if (modeLogin == 'Delivery') {
+      } else if (modeLogin == 'Dev') {
         if (!(nameLogin == null || nameLogin.isEmpty)) {
           setState(() {
             statusLogin = true;
-            cuttentWidget = MainHome();
+            cuttentWidget = MyDelivery();
           });
         }
       } else {}
@@ -91,8 +92,8 @@ class _HomeState extends State<Home> {
       myWidget = shopList();
     } else if (modeLogin == 'User') {
       myWidget = userList();
-    } else if (modeLogin == 'Delivery') {
-      myWidget = generalList();
+    } else if (modeLogin == 'Dev') {
+      myWidget = deliveryList();
     } else {
       myWidget = generalList();
     }
@@ -130,6 +131,15 @@ class _HomeState extends State<Home> {
         menuOrderShop(),
         menuMyFood(),
         menuAddMyFood(),
+        menuSignOut(),
+      ],
+    );
+  }
+
+  ListView deliveryList() {
+    return ListView(
+      children: <Widget>[
+        showHeadUser(),
         menuSignOut(),
       ],
     );
@@ -203,6 +213,8 @@ class _HomeState extends State<Home> {
       },
     );
   }
+
+  
 
   Widget menuShowCart() {
     return ListTile(

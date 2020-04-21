@@ -264,7 +264,7 @@ class _RegisterDeliveryState extends State<RegisterDelivery> {
 
   Future<void> insertDtaToMySQL(String string) async {
     String urlAPI =
-        '${MyConstant().urlAddDelivery}?isAdd=true&Name=$name&User=$user&Password=$password&UrlShop=urlImage&Lat=$lat&Lng=$lng';
+        '${MyConstant().urlAddDelivery}?isAdd=true&Name=$name&User=$user&Password=$password&UrlDev=urlImage&Lat=$lat&Lng=$lng';
 
 
     try {

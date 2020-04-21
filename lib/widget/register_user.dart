@@ -297,9 +297,7 @@ class _RegisterUserState extends State<RegisterUser> {
           print('res==>>>$response');
           if (response.toString() == 'true') {
             MaterialPageRoute route = MaterialPageRoute(
-              builder: (value) => Home(
-                currentWidget: SignInApp(),
-              ),
+              builder: (value) => Home(),
             );
             Navigator.of(context).pushAndRemoveUntil(route, (value) => false);
           } else {
