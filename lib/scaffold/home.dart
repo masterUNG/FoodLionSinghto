@@ -4,6 +4,7 @@ import 'package:foodlion/widget/add_my_food.dart';
 import 'package:foodlion/widget/main_home.dart';
 import 'package:foodlion/widget/my_delivery.dart';
 import 'package:foodlion/widget/my_food.dart';
+import 'package:foodlion/widget/my_food_shop.dart';
 import 'package:foodlion/widget/order_shop.dart';
 import 'package:foodlion/widget/register_delivery.dart';
 import 'package:foodlion/widget/register_shop.dart';
@@ -129,7 +130,7 @@ class _HomeState extends State<Home> {
       children: <Widget>[
         showHeadShop(),
         menuOrderShop(),
-        menuMyFood(),
+        menuMyFoodShop(),
         menuAddMyFood(),
         menuSignOut(),
       ],
@@ -164,6 +165,30 @@ class _HomeState extends State<Home> {
         Navigator.of(context).pop();
         setState(() {
           cuttentWidget = MyFood();
+        });
+      },
+    );
+  }
+
+  Widget menuMyFoodShop() {
+    return ListTile(
+      leading: Icon(
+        Icons.restaurant_menu,
+        size: 36.0,
+        color: MyStyle().dartColor,
+      ),
+      title: Text(
+        'รายการอาหาร',
+        style: MyStyle().h2Style,
+      ),
+      subtitle: Text(
+        'เมนูอาหารของฉัน',
+        style: MyStyle().h3StylePrimary,
+      ),
+      onTap: () {
+        Navigator.of(context).pop();
+        setState(() {
+          cuttentWidget = MyFoodShop();
         });
       },
     );
