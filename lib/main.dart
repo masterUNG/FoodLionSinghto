@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodlion/scaffold/home.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   Map<int, Color> color = {
     50: Color.fromRGBO(239, 121, 54, 0.1),
     100: Color.fromRGBO(239, 121, 54, 0.2),
@@ -20,6 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
     MaterialColor materialColor = MaterialColor(0xffef7936, color);
 
     return MaterialApp(

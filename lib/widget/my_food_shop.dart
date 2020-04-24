@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:foodlion/models/food_model.dart';
-import 'package:foodlion/scaffold/show_food.dart';
+import 'package:foodlion/scaffold/show_food_shop.dart';
 import 'package:foodlion/utility/my_style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,8 +39,10 @@ class _MyFoodShopState extends State<MyFoodShop> {
     String idShop = await getIdShop();
     if (myIdShop != null) {
       idShop = myIdShop;
+    } else if (foodModels.length != 0) {
+      foodModels.clear();
     }
-    // print('idShop ===> $idShop');
+
     String url =
         'http://movehubs.com/app/getFoodWhereIdShop.php?isAdd=true&idShop=$idShop';
 
@@ -76,22 +78,12 @@ class _MyFoodShopState extends State<MyFoodShop> {
     );
   }
 
-  Widget showContent(int index) => GestureDetector(
-        onTap: () {
-          // print('You Click idFood ===>> ${foodModels[index].id}');
-          // MaterialPageRoute route = MaterialPageRoute(
-          //     builder: (value) => ShowFood(
-          //           foodModel: foodModels[index],
-          //         ));
-          // Navigator.of(context).push(route);
-        },
-        child: Row(
-          children: <Widget>[
-            showImageFood(index),
-            showText(index),
-          ],
-        ),
-      );
+  Widget showContent(int index) => Row(
+    children: <Widget>[
+      showImageFood(index),
+      showText(index),
+    ],
+  );
 
   Widget showText(int index) => Container(
         padding: EdgeInsets.all(10.0),
@@ -103,38 +95,53 @@ class _MyFoodShopState extends State<MyFoodShop> {
             showNameFood(index),
             showDetailFood(index),
             showPrice(index),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: Colors.green,
-                    ),
-                    onPressed: () {}),
-                IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                    onPressed: () => deleteConfirmDialog(index)),
-              ],
-            ),
+            showButton(index),
           ],
         ),
       );
+
+  Row showButton(int index) {
+    return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.green,
+                  ),
+                  onPressed: () {
+                    MaterialPageRoute route = MaterialPageRoute(builder: (value)=>ShowFoodShop(foodModel: foodModels[index],));
+                    Navigator.of(context).push(route).then((value){
+                      setState(() {
+                        readAllFood();
+                      });
+                    });
+                  }),
+              IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  onPressed: () => deleteConfirmDialog(index)),
+            ],
+          );
+  }
 
   Future<void> deleteConfirmDialog(int index) async {
     showDialog(
       context: context,
       builder: (value) => AlertDialog(
-        title: Text('ยืนยันการลบเมนูอาหาร', style: MyStyle().h1PrimaryStyle,),
+        title: Text(
+          'ยืนยันการลบเมนูอาหาร',
+          style: MyStyle().h1PrimaryStyle,
+        ),
         content: Text(
             'คุณต้องการลบ ${foodModels[index].nameFood} จริงๆ หรือคะ โปรด ยื่นยัน'),
         actions: <Widget>[
           FlatButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                deleteThread(foodModels[index].id);
               },
               child: Text('ยืนยัน')),
           FlatButton(
@@ -143,6 +150,16 @@ class _MyFoodShopState extends State<MyFoodShop> {
         ],
       ),
     );
+  }
+
+  Future<void> deleteThread(String id) async {
+    String url =
+        'http://movehubs.com/app/deleteFoodWhereId.php?isAdd=true&id=$id';
+    await Dio().get(url).then((value) {
+      setState(() {
+        readAllFood();
+      });
+    });
   }
 
   Widget showPrice(int index) => Row(
