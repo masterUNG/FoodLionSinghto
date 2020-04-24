@@ -129,7 +129,6 @@ class _SingInUserState extends State<SingInUser> {
       preferences.setString('Lat', model.lat);
       preferences.setString('Lng', model.lng);
       preferences.setString('Login', 'User');
-      
 
       MaterialPageRoute route = MaterialPageRoute(builder: (value) => Home());
       Navigator.of(context).pushAndRemoveUntil(route, (value) => false);
@@ -138,11 +137,13 @@ class _SingInUserState extends State<SingInUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        MyStyle().showTitle('Sign In Type User'),
-        showContent(),
-      ],
+    return Scaffold(resizeToAvoidBottomPadding: true,
+      body: Stack(
+        children: <Widget>[
+          MyStyle().showTitle('Sign In Type User'),
+          showContent(),
+        ],
+      ),
     );
   }
 }

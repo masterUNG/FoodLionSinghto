@@ -115,7 +115,7 @@ class _ShowCartState extends State<ShowCart> {
   Widget showListCart() {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(top: 20.0, left: 8.0, right: 8.0),
         child: Column(
           children: <Widget>[
             headTitle(),
@@ -156,12 +156,18 @@ class _ShowCartState extends State<ShowCart> {
                           ),
                           Expanded(
                             flex: 1,
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: MyStyle().dartColor,
-                                ),
-                                onPressed: () {}),
+                            child: Row(
+                              children: <Widget>[
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.delete_forever,
+                                      color: MyStyle().dartColor,
+                                    ),
+                                    onPressed: () {
+                                      confirmAnDelete(orderModels[index]);
+                                    }),
+                              ],
+                            ),
                           ),
                         ],
                       )),
@@ -170,6 +176,38 @@ class _ShowCartState extends State<ShowCart> {
         ),
       ),
     );
+  }
+
+  Future<void> confirmAnDelete(OrderModel model) async {
+    print('id delete ==>>> ${model.id}');
+    showDialog(
+      context: context,
+      builder: (value) => AlertDialog(
+        title: Text('ยื่นยันการลบรายการอาหาร'),
+        content: Text('คุณต้องการลบ ${model.nameFood} นี่จริงๆ นะคะ'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              processDelete(model.id);
+            },
+            child: Text('ยืนยันลบ'),
+          ),
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('ไม่ลบรายการอาหาร'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> processDelete(int id) async {
+    await SQLiteHelper().deleteSQLiteWhereId(id).then((value) {setState(() {
+      readSQLite();
+    });});
   }
 
   String calculateTotal(String price, String amount) {

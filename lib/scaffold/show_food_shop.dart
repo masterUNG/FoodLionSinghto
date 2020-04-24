@@ -183,10 +183,10 @@ class _ShowFoodShopState extends State<ShowFoodShop> {
         appBar: AppBar(
           title: Text('แก้ไข รายการอาหาร'),
         ),
-        body: Stack(
+        body: ListView(
           children: <Widget>[
-            saveButton(),
             showContent(),
+            saveButton(),
           ],
         ));
   }
